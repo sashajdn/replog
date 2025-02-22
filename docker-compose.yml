@@ -1,0 +1,13 @@
+version: '3.8'
+
+services:
+  replog:
+    build:
+      context: .
+      dockerfile: Dockerfile.replog
+    networks:
+      - replog_network
+
+networks:
+  replog_network:
+    driver: bridge
