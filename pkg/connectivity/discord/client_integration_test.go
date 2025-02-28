@@ -46,7 +46,7 @@ func TestDiscordClientSendPrivateMessage(t *testing.T) {
 }
 
 func aValidDiscordClient() *discord.DiscordClient {
-	return discord.NewDiscordClient()
+	return discord.NewClient()
 }
 
 func someValidMessage() *messaging.Message {

@@ -20,11 +20,11 @@ type DiscordClient struct {
 	session      *discordgo.Session
 	receiverSize int
 	receiver     messaging.ReceiverChannel
-	cfg          DiscordClientConfig
+	cfg          ClientConfig
 	logger       *log.SugaredLogger
 }
 
-type DiscordClientConfig struct {
+type ClientConfig struct {
 	Token               string
 	ReceiverChannelSize int
 	Logger              *log.SugaredLogger
@@ -32,7 +32,7 @@ type DiscordClientConfig struct {
 
 type DiscordClientOption func(client *DiscordClient)
 
-func NewDiscordClient(cfg DiscordClientConfig, clientOpts ...DiscordClientOption) (*DiscordClient, error) {
+func NewClient(cfg ClientConfig, clientOpts ...DiscordClientOption) (*DiscordClient, error) {
 	session, err := discordgo.New("Bot " + cfg.Token)
 	if err != nil {
 		return nil, eris.Wrap(err, `create discord session`)

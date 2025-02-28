@@ -10,14 +10,15 @@ var (
 
 // Environment defines the full environment for the application as a typed struct.
 type Environment struct {
-	Discord Discord `envconfig:"DISCORD"`
+	Discord    Discord    `envconfig:"DISCORD"`
+	PostgreSQL PostgreSQL `envconfig:"POSTGRESQL"`
 }
 
 type Discord struct {
-	APIKey        string `envconfig:"API_KEY"`
+	APIToken      string `envconfig:"API_TOKEN"`
 	ApplicationID string `envconfig:"APPLICATION_ID"`
 }
 
 type PostgreSQL struct {
-	URL string `envconfig:"POSTGRES_DATABASE_URL"`
+	URL string `envconfig:"URL"`
 }

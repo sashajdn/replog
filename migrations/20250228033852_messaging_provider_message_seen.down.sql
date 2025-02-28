@@ -1,0 +1,1 @@
+DROP TABLE messaging_provider_message_last_seen IF EXISTS;

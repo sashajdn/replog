@@ -2,13 +2,17 @@ package replog
 
 import (
 	"io"
+	"time"
 
 	"github.com/rotisserie/eris"
 )
 
 type Entry struct {
-	ID    string
-	Lines []*Line
+	ID        string
+	UserID    string
+	Lines     []*Line
+	CreatedAt time.Time
+	UpdatedAt time.Time
 }
 
 func (e *Entry) Append(line *Line) {
