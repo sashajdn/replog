@@ -21,14 +21,10 @@ type EntryRepository struct {
 	db     *db.DB
 }
 
-func (r *EntryRepository) AppendLinesToEntry(ctx context.Context, entry *replog.Entry) error {
+func (r *EntryRepository) CreateSubEntry(ctx context.Context, parentEntryID string, entry *replog.Entry) error {
 	return eris.New("not implemented")
 }
 
 func (r *EntryRepository) CreateEntry(ctx context.Context, entry *replog.Entry) error {
-	return eris.New("not implemented")
-}
-
-func (r *EntryRepository) CreateEntryAndAppendLines(ctx context.Context, entry *replog.Entry) error {
 	return eris.New("not implemented")
 }

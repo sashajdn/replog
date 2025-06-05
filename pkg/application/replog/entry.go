@@ -8,26 +8,17 @@ import (
 )
 
 type Entry struct {
-	ID        string
-	UserID    string
-	Lines     []*Line
+	ID        EntryID
+	UserID    UserID
+	Content   string
+	Parent    *Entry
+	Children  []*Entry
 	CreatedAt time.Time
 	UpdatedAt time.Time
-}
-
-func (e *Entry) Append(line *Line) {
-	e.Lines = append(e.Lines, line)
+	// TODO: add sub entry
+	// TODO add tags & other metadata such as a headline
 }
 
 func (e *Entry) Flush(writer io.Writer) error {
-	return eris.New("not implemented")
-}
-
-type Line struct {
-	UserID  string
-	Content string
-}
-
-func (e *Line) Flush(writer io.Writer) error {
 	return eris.New("not implemented")
 }

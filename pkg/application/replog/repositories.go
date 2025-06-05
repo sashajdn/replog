@@ -11,14 +11,14 @@ import (
 
 type (
 	UserID    string
+	EntryID   string
 	ChannelID string
 	MessageID string
 )
 
 type ReplogRepository interface {
-	AppendLinesToEntry(ctx context.Context, entry *Entry) error
 	CreateEntry(ctx context.Context, entry *Entry) error
-	CreateEntryAndAppendLines(ctx context.Context, entry *Entry) error
+	CreateSubEntry(ctx context.Context, parentEntryID EntryID, entry *Entry) error
 	CreateChannel(ctx context.Context, channelName string, messagingProviderType MessagingProviderType) error
 	ReadEntryFromUserAndChannel(ctx context.Context, userID string)
 }

@@ -19,13 +19,10 @@ func TestDiscordClientSendPublicMessage(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	discordClient := aValidDiscordClient()
-
-	err := discordClient.Ping(ctx)
-	require.NoError(t, err)
+	discordClient := aValidDiscordClient(t)
 
 	someMessage := someValidMessage()
-	err = discordClient.SendPublicMessage(ctx, someMessage)
+	err := discordClient.SendPublicMessage(ctx, someMessage)
 	require.NoError(t, err)
 }
 
@@ -35,18 +32,25 @@ func TestDiscordClientSendPrivateMessage(t *testing.T) {
 	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
 	defer cancel()
 
-	discordClient := aValidDiscordClient()
-
-	err := discordClient.Ping(ctx)
-	require.NoError(t, err)
+	discordClient := aValidDiscordClient(t)
 
 	someMessage := someValidMessage()
-	err = discordClient.SendPrivateMessage(ctx, someMessage)
+	err := discordClient.SendPrivateMessage(ctx, someMessage)
 	require.NoError(t, err)
 }
 
-func aValidDiscordClient() *discord.DiscordClient {
-	return discord.NewClient()
+func aValidDiscordClient(t *testing.T) *discord.DiscordClient {
+	cfg := discord.ClientConfig{}
+	client, err := discord.NewClient(cfg)
+	require.NoError(t, err, `failed to create a valid discord client`)
+
+	ctx, cancel := context.WithTimeout(context.Background(), 5*time.Second)
+	defer cancel()
+
+	err = client.Ping(ctx)
+	require.NoError(t, err, `failed to ping a valid discord client`)
+
+	return client
 }
 
 func someValidMessage() *messaging.Message {

@@ -93,6 +93,6 @@ func (s *stateMachine) transition(to state) error {
 		return ErrTransitionToSameState
 	}
 
-	s.logger.Infof("transitioning state machine from %s to %s", s.currentState, to)
+	s.logger.Debugf("transitioning state machine from %s to %s", s.currentState, to)
 	return s.currentState.transition(to)
 }
