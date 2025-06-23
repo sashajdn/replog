@@ -2,12 +2,69 @@ version: '3.8'
 
 services:
   replog:
+    container_name: replog_replog
     build:
       context: .
       dockerfile: Dockerfile.replog
     networks:
       - replog_network
+    environment:
+      REPLOG_POSTGRES_DATABASE_URL: "postgres://replog:replogpassword@db:5432/replogdb?sslmode=disable"
+    depends_on:
+      db:
+        condition: service_healthy
+      migrations:
+        condition: service_started
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U replog -h db"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    restart: always
+
+  db:
+    image: postgres:13-alpine
+    container_name: replog_db
+    environment:
+      POSTGRES_USER: replog
+      POSTGRES_PASSWORD: replogpassword
+      POSTGRES_DB: replogdb
+    volumes:
+      - replog_postgres_data:/var/lib/postgresql/data
+    networks:
+      - replog_network
+    ports:
+      - "5432:5432"
+    restart: always
+    mem_limit: 3g
+    cpus: 2.0
+    shm_size: 2g
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U replog"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  migrations:
+    container_name: replog_migrations
+    image: migrate/migrate:v4.15.2
+    command: [
+      "-path", "/migrations",
+      "-database", "postgres://replog:replogpassword@db:5432/replogdb?sslmode=disable",
+      "up"
+    ]
+    volumes:
+      - ./migrations:/migrations
+    depends_on:
+      db:
+        condition: service_healthy
+    networks:
+      - replog_network
+    restart: "no"
 
 networks:
   replog_network:
     driver: bridge
+
+volumes:
+  replog_postgres_data:

@@ -14,7 +14,16 @@ clean:
 	-docker network prune -f
 
 test:
-	go test -v ./...
+	@echo "Running all tests..."
+	$(MAKE) -j2 unittest integration_test
+
+unit_test:
+	@echo "Running unit tests..."
+	@go test -v -count=1 ./...
+
+integration_test:
+	@echo "Running integration tests..."
+	@go test -v -tags=integration -count=1 ./...
 
 help:
 	@echo "Usage: make [target]"
